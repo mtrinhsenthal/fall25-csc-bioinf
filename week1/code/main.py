@@ -1,7 +1,6 @@
 from dbg import DBG
 from utils import read_data
 import sys
-import os
 
 # Codon does not support sys.setrecursionlimit
 # (stack size is fixed by the system, so we drop this)
@@ -12,12 +11,15 @@ def main(argv: list[str]) -> None:
         print("Usage: ./program <input_folder>")
         return
 
-    short1, short2, long1 = read_data(os.path.join("./", argv[1]))
+    # short1, short2, long1 = read_data(os.path.join("./", argv[1]))
+    relative_path = "../data/"
+    short1, short2, long1 = read_data(relative_path + argv[1])
 
     k: int = 25
     dbg = DBG(k=k, data_list=[short1, short2, long1])
 
-    outpath: str = os.path.join("./", argv[1], "contig.fasta")
+    # outpath: str = os.path.join("./", argv[1], "contig.fasta")
+    outpath = "../data/data1/contig.fasta"
     with open(outpath, "w") as f:
         for i in range(20):
             c = dbg.get_longest_contig()
