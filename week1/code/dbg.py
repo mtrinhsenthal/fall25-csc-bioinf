@@ -9,16 +9,34 @@ def reverse_complement(key: str) -> str:
     return ''.join(key)
 
 class Node:
-    def __init__(self, kmer):
-        self._children : Set[Node] = set()
-        self._count : int = 0
-        self.kmer : str = kmer
-        self.visited : bool = False
-        self.depth : int = 0
-        self.max_depth_child : Optional[int] = None
+    _children: Set[Optional[int]]
+    _count: int
+    kmer: str
+    visited: bool
+    depth: int
+    max_depth_child: Optional[int]
 
-    def add_child(self, kmer):
-        self._children.add(kmer)
+    def __init__(self, kmer):
+        # self._children : Set[Node] = set()
+        
+        self._children = set()
+        self._count = 0
+        self.kmer = kmer
+        self.visited = False
+        self.depth = 0
+        self.max_depth_child = None
+
+        # self._children : Set[int] = set()
+        # self._count : int = 0
+        # self.kmer : str = kmer
+        # self.visited : bool = False
+        # self.depth : int = 0
+        # self.max_depth_child : Optional[int] = None
+
+    # def add_child(self, kmer):
+    #     self._children.add(kmer)
+    def add_child(self, kmer_idx: int):
+        self._children.add(kmer_idx)
 
     def increase(self):
         self._count += 1
