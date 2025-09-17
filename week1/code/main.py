@@ -25,5 +25,6 @@ if __name__ == "__main__":
             if c is None:
                 break
             print(i, len(c))
-            f.write('>contig_%d\n' % i)
+            # f.write('>contig_%d\n' % i)
+            f.write(f'>contig_{i}\n')
             f.write(c + '\n')
