@@ -93,5 +93,5 @@ for i in "${!args[@]}"; do
 done
 
 for i in "${!language[@]}"; do
-    printf "%-15s | %-15s | %-15s | %-10s\n" "${args[$((i % 3))]}" "${language[$i]}" "${runtimes[$i]}" "${n50_results[$i]}"
+    printf "%-15s | %-15s | %-15s | %-10s\n" "${args[$((i % 4))]}" "${language[$i]}" "${runtimes[$i]}" "${n50_results[$i]}"
 done
