@@ -47,7 +47,7 @@ format_runtime() {
 
 python_script="week1/code/main.py"
 codon_script="week1/code/codon_main.py"
-args=("data/data1" "data/data2" "data/data3")
+args=("week1/data/data1" "week1/data/data2" "week1/data/data3")
 language=()
 runtimes=()
 n50_results=()
