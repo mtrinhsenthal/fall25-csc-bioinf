@@ -10,12 +10,12 @@ def reverse_complement(key: str) -> str:
 
 class Node:
     def __init__(self, kmer):
-        self._children = set()
-        self._count = 0
-        self.kmer = kmer
-        self.visited = False
-        self.depth = 0
-        self.max_depth_child = None
+        self._children : Set[Node] = set()
+        self._count : int = 0
+        self.kmer : str = kmer
+        self.visited : bool = False
+        self.depth : int = 0
+        self.max_depth_child : Optional[int] = None
 
     def add_child(self, kmer):
         self._children.add(kmer)
@@ -39,13 +39,11 @@ class Node:
 
 
 class DBG:
-    def __init__(self, k, data_list):
-        self.k = k
-        self.nodes = {}
-        # private
-        self.kmer2idx = {}
-        self.kmer_count = 0
-        # build
+    def __init__(self, k: int, data_list: List[List[str]]):
+        self.k : int = k
+        self.nodes : Dict[int, Node] = {}
+        self.kmer2idx : Dict[str, int] = {}
+        self.kmer_count : int = 0
         self._check(data_list)
         self._build(data_list)
 
@@ -67,8 +65,6 @@ class DBG:
         for idx in self.nodes:
             count[self.nodes[idx].get_count()] += 1
         print(count[0:10])
-        # plt.plot(count)
-        # plt.show()
 
     def _add_node(self, kmer):
         if kmer not in self.kmer2idx:
