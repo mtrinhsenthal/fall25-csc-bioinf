@@ -25,9 +25,11 @@ jobs:
           echo "Found Python at: ${CODON_PYTHON}"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: Show working directory
-        run: pwd
-      - name: List files
-        run: ls -R
+      # Install Codon
+      - name: Install Codon
+        run: |
+          wget https://github.com/exaloop/codon/releases/latest/download/codon-linux-x86_64.tar.gz
+          tar -xzf codon-linux-x86_64.tar.gz
+          sudo mv codon/bin/codon /usr/local/bin/
       - name: Week 1
         run: bash week1/evaluate.sh
