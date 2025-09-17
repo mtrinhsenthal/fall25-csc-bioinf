@@ -26,12 +26,16 @@ contig_lengths.sort(reverse=True)
 total_length = sum(contig_lengths)
 half_length = total_length / 2
 
+print(half_length)
+
 running_sum = 0
 for length in contig_lengths:
     running_sum += length
     if running_sum >= half_length:
         print(length)
         break
+
+print("probably shouldn't be here...  ", running_sum, half_length)
 END
 }
 
@@ -49,16 +53,18 @@ format_runtime() {
 python_script="week1/code/main.py"
 codon_script="week1/code/codon_main.py"
 args=("week1/data/data1" "week1/data/data2" "week1/data/data3" "week1/data/data4")
+datafiles=()
 language=()
 runtimes=()
 n50_results=()
 
 for arg in "${args[@]}"; do
     language+=("python")
+    datafiles+=("${arg#data/}")
 
     start_time=$(date +%s.%N)
-    # python3 "$python_script" "$arg"
-    python3 "$python_script" "$arg" > /dev/null # hide print statements
+    python3 "$python_script" "$arg"
+    # python3 "$python_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
 
     runtime=$(echo "$end_time - $start_time" | bc)
@@ -70,6 +76,7 @@ for arg in "${args[@]}"; do
 
 
     language+=("codon")
+    datafiles+=("${args[$i]#data/}")
     start_time=$(date +%s.%N)
     codon run -release "$codon_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
@@ -88,10 +95,10 @@ done
 printf "\n%-15s | %-15s | %-15s | %-10s\n" "Dataset" "Language" "Time (s)" "N50"
 printf "%s\n" "-----------------------------------------------------------------"
 
-for i in "${!args[@]}"; do
-    args[$i]="${args[$i]#data/}" # strip "data/" from start of string
-done
+# for i in "${!args[@]}"; do
+#     args[$i]="${args[$i]#data/}" # strip "data/" from start of string
+# done
 
 for i in "${!language[@]}"; do
-    printf "%-15s | %-15s | %-15s | %-10s\n" "${args[$((i % 4))]}" "${language[$i]}" "${runtimes[$i]}" "${n50_results[$i]}"
+    printf "%-15s | %-15s | %-15s | %-10s\n" "${datafiles[$i]}" "${language[$i]}" "${runtimes[$i]}" "${n50_results[$i]}"
 done
