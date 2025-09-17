@@ -1,3 +1,5 @@
+set -euxo pipefail
+
 calculate_n50() {
     local fasta_path="$1"
     python3 <<END
