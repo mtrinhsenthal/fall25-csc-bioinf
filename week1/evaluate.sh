@@ -57,7 +57,8 @@ for arg in "${args[@]}"; do
     language+=("python")
 
     start_time=$(date +%s.%N)
-    python "$python_script" "$arg" > /dev/null # hide print statements
+    python "$python_script" "$arg"
+    # python "$python_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
 
     runtime=$(echo "$end_time - $start_time" | bc)
