@@ -76,7 +76,7 @@ for arg in "${args[@]}"; do
 
 
     language+=("codon")
-    datafiles+=("${args[$i]#data/}")
+    datafiles+=("${arg#data/}")
     start_time=$(date +%s.%N)
     codon run -release "$codon_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
