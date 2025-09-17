@@ -45,8 +45,8 @@ format_runtime() {
     printf "%d:%02d:%02d" "$minutes" "$seconds" "$millis"
 }
 
-python_script="../week1/code/main.py"
-codon_script="../week1/code/codon_main.py"
+python_script="week1/code/main.py"
+codon_script="week1/code/codon_main.py"
 args=("data/data1" "data/data2" "data/data3")
 language=()
 runtimes=()
