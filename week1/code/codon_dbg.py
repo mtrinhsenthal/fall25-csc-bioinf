@@ -1,8 +1,6 @@
 import copy
-from matplotlib import pyplot as plt
 
-
-def reverse_complement(key):
+def reverse_complement(key: str) -> str:
     complement = {'A': 'T', 'T': 'A', 'G': 'C', 'C': 'G'}
 
     key = list(key[::-1])
@@ -10,9 +8,17 @@ def reverse_complement(key):
         key[i] = complement[key[i]]
     return ''.join(key)
 
-
 class Node:
+    _children: Set[Optional[int]]
+    _count: int
+    kmer: str
+    visited: bool
+    depth: int
+    max_depth_child: Optional[int]
+
     def __init__(self, kmer):
+        # self._children : Set[Node] = set()
+        
         self._children = set()
         self._count = 0
         self.kmer = kmer
@@ -20,8 +26,17 @@ class Node:
         self.depth = 0
         self.max_depth_child = None
 
-    def add_child(self, kmer):
-        self._children.add(kmer)
+        # self._children : Set[int] = set()
+        # self._count : int = 0
+        # self.kmer : str = kmer
+        # self.visited : bool = False
+        # self.depth : int = 0
+        # self.max_depth_child : Optional[int] = None
+
+    # def add_child(self, kmer):
+    #     self._children.add(kmer)
+    def add_child(self, kmer_idx: int):
+        self._children.add(kmer_idx)
 
     def increase(self):
         self._count += 1
@@ -42,13 +57,11 @@ class Node:
 
 
 class DBG:
-    def __init__(self, k, data_list):
-        self.k = k
-        self.nodes = {}
-        # private
-        self.kmer2idx = {}
-        self.kmer_count = 0
-        # build
+    def __init__(self, k: int, data_list: List[List[str]]):
+        self.k : int = k
+        self.nodes : Dict[int, Node] = {}
+        self.kmer2idx : Dict[str, int] = {}
+        self.kmer_count : int = 0
         self._check(data_list)
         self._build(data_list)
 
@@ -70,8 +83,6 @@ class DBG:
         for idx in self.nodes:
             count[self.nodes[idx].get_count()] += 1
         print(count[0:10])
-        # plt.plot(count)
-        # plt.show()
 
     def _add_node(self, kmer):
         if kmer not in self.kmer2idx:
@@ -106,7 +117,7 @@ class DBG:
                     max_depth, max_child = depth, child
             self.nodes[idx].depth, self.nodes[idx].max_depth_child = max_depth + 1, max_child
         return self.nodes[idx].depth
-
+        
     def _reset(self):
         for idx in self.nodes.keys():
             self.nodes[idx].reset()
