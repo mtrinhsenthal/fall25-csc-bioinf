@@ -8,9 +8,10 @@ import sys
 if __name__ == "__main__":
     argv = sys.argv
 
-    relative_path: str = "../data/"
+    # relative_path: str = "../data/"
     folder: str = argv[1]
-    input_path: str = relative_path + folder
+    input_path: str = folder
+    # input_path: str = relative_path + folder
 
     short1, short2, long1 = read_data(input_path)
 
