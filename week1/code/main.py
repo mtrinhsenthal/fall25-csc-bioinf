@@ -8,12 +8,14 @@ sys.setrecursionlimit(1000000)
 
 if __name__ == "__main__":
     argv = sys.argv
-    short1, short2, long1 = read_data(os.path.join('./', argv[1]))
+    # short1, short2, long1 = read_data(os.path.join('./', argv[1]))
+    short1, short2, long1 = read_data('week1/data/' + argv[1])
 
     k = 25
     dbg = DBG(k=k, data_list=[short1, short2, long1])
     # dbg.show_count_distribution()
-    with open(os.path.join('./', argv[1], 'contig.fasta'), 'w') as f:
+    # with open(os.path.join('./', argv[1], 'contig.fasta'), 'w') as f:
+    with open('week1/data/' + argv[1], 'contig-fasta', 'w') as f:
         for i in range(20):
             c = dbg.get_longest_contig()
             if c is None:
