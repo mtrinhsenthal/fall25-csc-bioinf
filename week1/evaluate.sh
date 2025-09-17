@@ -1,4 +1,9 @@
+#!/bin/bash
+
 set -euxo pipefail
+set -e  # stop on error
+set -x  # print each command
+
 
 calculate_n50() {
     local fasta_path="$1"
