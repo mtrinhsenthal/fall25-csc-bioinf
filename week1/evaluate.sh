@@ -8,7 +8,7 @@ export PATH="${HOME}/.codon/bin:$PATH"
 
 calculate_n50() {
     local fasta_path="$1"
-    python <<END
+    python3 <<END
 contig_lengths = []
 with open("$fasta_path") as f:
     length = 0
@@ -57,8 +57,8 @@ for arg in "${args[@]}"; do
     language+=("python")
 
     start_time=$(date +%s.%N)
-    python "$python_script" "$arg"
-    # python "$python_script" "$arg" > /dev/null # hide print statements
+    # python3 "$python_script" "$arg"
+    python3 "$python_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
 
     runtime=$(echo "$end_time - $start_time" | bc)
