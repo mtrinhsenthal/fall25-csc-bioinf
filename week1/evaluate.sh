@@ -1,8 +1,7 @@
 #!/bin/bash
 
 set -euxo pipefail
-set -e  # stop on error
-set -x  # print each command
+# set -x  # print each command
 
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
@@ -56,8 +55,6 @@ runtimes=()
 n50_results=()
 
 for arg in "${args[@]}"; do
-    echo "Executing $arg"
-    echo "Running Python script..." 
     language+=("python")
 
     start_time=$(date +%s.%N)
@@ -68,12 +65,10 @@ for arg in "${args[@]}"; do
     formatted_runtime=$(format_runtime "$runtime")
     runtimes+=("$formatted_runtime")
 
-    echo "Calculating n50 for $arg with python"
     n50=$(calculate_n50 "${arg}/contig.fasta")
     n50_results+=("$n50")
 
 
-    echo "Running codon script..."
     language+=("codon")
     start_time=$(date +%s.%N)
     codon run -release "$codon_script" "$arg" > /dev/null # hide print statements
@@ -83,7 +78,6 @@ for arg in "${args[@]}"; do
     formatted_runtime=$(format_runtime "$runtime")
     runtimes+=("$formatted_runtime")
 
-    echo "Calculating n50 for $arg with codon"
     n50=$(calculate_n50 "${arg}/contig.fasta")
     n50_results+=("$n50")
 done
