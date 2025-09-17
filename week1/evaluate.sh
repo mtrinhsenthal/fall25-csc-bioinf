@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -euxo pipefail
-# set -x  # print each command
 
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
@@ -9,7 +8,7 @@ export PATH="${HOME}/.codon/bin:$PATH"
 
 calculate_n50() {
     local fasta_path="$1"
-    python3 <<END
+    python <<END
 contig_lengths = []
 with open("$fasta_path") as f:
     length = 0

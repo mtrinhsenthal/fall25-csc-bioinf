@@ -17,7 +17,6 @@ class Node:
     max_depth_child: Optional[int]
 
     def __init__(self, kmer):
-        # self._children : Set[Node] = set()
         
         self._children = set()
         self._count = 0
@@ -26,15 +25,6 @@ class Node:
         self.depth = 0
         self.max_depth_child = None
 
-        # self._children : Set[int] = set()
-        # self._count : int = 0
-        # self.kmer : str = kmer
-        # self.visited : bool = False
-        # self.depth : int = 0
-        # self.max_depth_child : Optional[int] = None
-
-    # def add_child(self, kmer):
-    #     self._children.add(kmer)
     def add_child(self, kmer_idx: int):
         self._children.add(kmer_idx)
 
