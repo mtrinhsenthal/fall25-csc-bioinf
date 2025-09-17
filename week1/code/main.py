@@ -15,7 +15,7 @@ if __name__ == "__main__":
     dbg = DBG(k=k, data_list=[short1, short2, long1])
     # dbg.show_count_distribution()
     # with open(os.path.join('./', argv[1], 'contig.fasta'), 'w') as f:
-    with open('week1/' + argv[1], 'contig-fasta', 'w') as f:
+    with open('week1/' + argv[1] + 'contig-fasta', 'w') as f:
         for i in range(20):
             c = dbg.get_longest_contig()
             if c is None:
