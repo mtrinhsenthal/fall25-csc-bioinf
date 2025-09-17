@@ -25,10 +25,5 @@ jobs:
           echo "Found Python at: ${CODON_PYTHON}"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: Install Codon via official script
-        run: |
-          /bin/bash -c "$(curl -fsSL https://exaloop.io/install.sh)"
-          echo "${HOME}/.codon/bin" >> $GITHUB_PATH
-
       - name: Week 1
         run: bash week1/evaluate.sh

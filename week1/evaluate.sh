@@ -4,6 +4,9 @@ set -euxo pipefail
 set -e  # stop on error
 set -x  # print each command
 
+# Add Codon to PATH
+export PATH="${HOME}/.codon/bin:$PATH"
+
 
 calculate_n50() {
     local fasta_path="$1"
