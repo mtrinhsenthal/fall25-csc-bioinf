@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# set -euxo pipefail
+set -euxo pipefail
 
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
@@ -69,7 +69,7 @@ for arg in "${args[@]}"; do
     formatted_runtime=$(format_runtime "$runtime")
     runtimes+=("$formatted_runtime")
 
-    n50=$(python3 week1/code/n50_calc.py "${arg}/contig.fasta")
+    n50=$(python3 week1/code/n50.py "${arg}/contig.fasta")
     # n50=$(calculate_n50 "${arg}/contig.fasta")
     n50_results+=("$n50")
 
@@ -85,7 +85,7 @@ for arg in "${args[@]}"; do
     runtimes+=("$formatted_runtime")
 
     # n50=$(calculate_n50 "${arg}/contig.fasta")
-    n50=$(python3 week1/code/n50_calc.py "${arg}/contig.fasta")
+    n50=$(python3 week1/code/n50.py "${arg}/contig.fasta")
     n50_results+=("$n50")
 done
 
