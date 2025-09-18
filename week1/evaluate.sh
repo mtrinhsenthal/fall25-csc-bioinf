@@ -5,6 +5,8 @@
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
 
+ulimit -s 8192000 # set higher stack size, for data4
+
 
 calculate_n50() {
     local fasta_path="$1"
@@ -30,6 +32,7 @@ running_sum = 0
 for length in contig_lengths:
     running_sum += length
     if running_sum >= half_length:
+        print(length)
         break
 END
 }
