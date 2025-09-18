@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+# set -euxo pipefail
 
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
@@ -32,10 +32,7 @@ running_sum = 0
 for length in contig_lengths:
     running_sum += length
     if running_sum >= half_length:
-        print(length)
         break
-
-print("probably shouldn't be here...  ", running_sum, half_length)
 END
 }
 
@@ -63,8 +60,8 @@ for arg in "${args[@]}"; do
     datafiles+=("${arg#data/}")
 
     start_time=$(date +%s.%N)
-    python3 "$python_script" "$arg"
-    # python3 "$python_script" "$arg" > /dev/null # hide print statements
+    # python3 "$python_script" "$arg"
+    python3 "$python_script" "$arg" > /dev/null # hide print statements
     end_time=$(date +%s.%N)
 
     runtime=$(echo "$end_time - $start_time" | bc)
