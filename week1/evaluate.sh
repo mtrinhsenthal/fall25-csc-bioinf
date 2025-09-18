@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -euxo pipefail
+# set -euxo pipefail
 
 # Add Codon to PATH
 export PATH="${HOME}/.codon/bin:$PATH"
