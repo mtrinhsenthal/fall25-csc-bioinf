@@ -69,7 +69,8 @@ for arg in "${args[@]}"; do
     formatted_runtime=$(format_runtime "$runtime")
     runtimes+=("$formatted_runtime")
 
-    n50=$(calculate_n50 "${arg}/contig.fasta")
+    n50=$(python3 week1/code/n50_calc.py "${arg}/contig.fasta")
+    # n50=$(calculate_n50 "${arg}/contig.fasta")
     n50_results+=("$n50")
 
 
@@ -83,7 +84,8 @@ for arg in "${args[@]}"; do
     formatted_runtime=$(format_runtime "$runtime")
     runtimes+=("$formatted_runtime")
 
-    n50=$(calculate_n50 "${arg}/contig.fasta")
+    # n50=$(calculate_n50 "${arg}/contig.fasta")
+    n50=$(python3 week1/code/n50_calc.py "${arg}/contig.fasta")
     n50_results+=("$n50")
 done
 
