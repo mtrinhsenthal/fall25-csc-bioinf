@@ -197,7 +197,7 @@ class Tree(Copyable):
         return graph
 
         
-
+#   # NEED
     def get_distance(self, index1, index2, bint topological=False):
         """
         get_distance(index1, index2, topological=False)
@@ -243,50 +243,51 @@ class Tree(Copyable):
             self._leaves[index2], topological
         )
     
-    def to_newick(self, labels=None, bint include_distance=True, 
-                  round_distance=None):
-        """
-        to_newick(labels=None, include_distance=True)
+    # def to_newick(self, labels=None, bint include_distance=True, 
+    #               round_distance=None):
+    #     """
+    #     to_newick(labels=None, include_distance=True)
 
-        Obtain the Newick notation of the tree.
+    #     Obtain the Newick notation of the tree.
 
-        Parameters
-        ----------
-        labels : iterable object of str
-            The labels the indices in the leaf nodes srefer to
-        include_distance : bool
-            If true, the distances are displayed in the newick notation,
-            otherwise they are omitted.
-        round_distance : int, optional
-            If set, the distances are rounded to the given number of
-            digits.
+    #     Parameters
+    #     ----------
+    #     labels : iterable object of str
+    #         The labels the indices in the leaf nodes srefer to
+    #     include_distance : bool
+    #         If true, the distances are displayed in the newick notation,
+    #         otherwise they are omitted.
+    #     round_distance : int, optional
+    #         If set, the distances are rounded to the given number of
+    #         digits.
         
-        Returns
-        -------
-        newick : str
-            The Newick notation of the tree.
+    #     Returns
+    #     -------
+    #     newick : str
+    #         The Newick notation of the tree.
 
-        Examples
-        --------
+    #     Examples
+    #     --------
         
-        >>> leaf1 = TreeNode(index=0)
-        >>> leaf2 = TreeNode(index=1)
-        >>> leaf3 = TreeNode(index=2)
-        >>> inter = TreeNode([leaf1, leaf2], [5.0, 7.0])
-        >>> root  = TreeNode([inter, leaf3], [3.0, 10.0])
-        >>> tree = Tree(root)
-        >>> print(tree.to_newick())
-        ((0:5.0,1:7.0):3.0,2:10.0):0.0;
-        >>> print(tree.to_newick(include_distance=False))
-        ((0,1),2);
-        >>> labels = ["foo", "bar", "foobar"]
-        >>> print(tree.to_newick(labels=labels, include_distance=False))
-        ((foo,bar),foobar);
-        """
-        return self._root.to_newick(
-            labels, include_distance, round_distance
-        ) + ";"
-    
+    #     >>> leaf1 = TreeNode(index=0)
+    #     >>> leaf2 = TreeNode(index=1)
+    #     >>> leaf3 = TreeNode(index=2)
+    #     >>> inter = TreeNode([leaf1, leaf2], [5.0, 7.0])
+    #     >>> root  = TreeNode([inter, leaf3], [3.0, 10.0])
+    #     >>> tree = Tree(root)
+    #     >>> print(tree.to_newick())
+    #     ((0:5.0,1:7.0):3.0,2:10.0):0.0;
+    #     >>> print(tree.to_newick(include_distance=False))
+    #     ((0,1),2);
+    #     >>> labels = ["foo", "bar", "foobar"]
+    #     >>> print(tree.to_newick(labels=labels, include_distance=False))
+    #     ((foo,bar),foobar);
+    #     """
+    #     return self._root.to_newick(
+    #         labels, include_distance, round_distance
+    #     ) + ";"
+
+#   # NEED
     @staticmethod
     def from_newick(str newick, list labels=None):
         """
@@ -520,46 +521,47 @@ cdef class TreeNode:
     def distance(self):
         return None if self._parent is None else self._distance
 
-    def is_leaf(self):
-        """
-        is_leaf()
+    # def is_leaf(self):
+    #     """
+    #     is_leaf()
         
-        Check if the node is a leaf node.
+    #     Check if the node is a leaf node.
 
-        Returns
-        -------
-        is_leaf : bool
-            True if the node is a leaf node, false otherwise.
-        """
-        return False if self._index == -1 else True
+    #     Returns
+    #     -------
+    #     is_leaf : bool
+    #         True if the node is a leaf node, false otherwise.
+    #     """
+    #     return False if self._index == -1 else True
     
-    def is_root(self):
-        """
-        is_root()
+    # def is_root(self):
+    #     """
+    #     is_root()
         
-        Check if the node is a root node.
+    #     Check if the node is a root node.
 
-        Returns
-        -------
-        is_root : bool
-            True if the node is a root node, false otherwise.
-        """
-        return bool(self._is_root)
+    #     Returns
+    #     -------
+    #     is_root : bool
+    #         True if the node is a root node, false otherwise.
+    #     """
+    #     return bool(self._is_root)
     
-    def as_root(self):
-        """
-        as_root()
+    # def as_root(self):
+    #     """
+    #     as_root()
         
-        Convert the node into a root node.
+    #     Convert the node into a root node.
 
-        When a root node is used as `child` parameter in the
-        construction of a potential parent node, a :class:`TreeError` is
-        raised.
-        """
-        if self._parent is not None:
-            raise TreeError("Node has parent, cannot be a root node")
-        self._is_root = True
+    #     When a root node is used as `child` parameter in the
+    #     construction of a potential parent node, a :class:`TreeError` is
+    #     raised.
+    #     """
+    #     if self._parent is not None:
+    #         raise TreeError("Node has parent, cannot be a root node")
+    #     self._is_root = True
     
+    # NEED
     def distance_to(self, TreeNode node, bint topological=False):
         """
         distance_to(node, topological=False)
@@ -620,196 +622,196 @@ cdef class TreeNode:
             current_node = current_node._parent
         return distance
     
-    def lowest_common_ancestor(self, TreeNode node):
-        """
-        lowest_common_ancestor(node)
+    # def lowest_common_ancestor(self, TreeNode node):
+    #     """
+    #     lowest_common_ancestor(node)
         
-        Get the lowest common ancestor of this node and another node.
+    #     Get the lowest common ancestor of this node and another node.
 
-        Parameters
-        ----------
-        node : TreeNode
-            The node to get the lowest common ancestor with.
+    #     Parameters
+    #     ----------
+    #     node : TreeNode
+    #         The node to get the lowest common ancestor with.
 
-        Returns
-        -------
-        ancestor : TreeNode or None
-            The lowest common ancestor. `None` if the nodes have no
-            common ancestor, i.e. they are not in the same tree
-        """
-        cdef int i
-        cdef TreeNode lca = None
-        # Create two paths from the leaves to root
-        cdef list self_path = _create_path_to_root(self)
-        cdef list other_path = _create_path_to_root(node)
-        # Reverse Iteration through path (beginning from root)
-        # until the paths diverge
-        for i in range(-1, -min(len(self_path), len(other_path))-1, -1):
-            if self_path[i] is other_path[i]:
-                # Same node -> common ancestor
-                lca = self_path[i]
-            else:
-                # Different node -> Not common ancestor
-                # -> return last common ancewstor found
-                break
-        return lca
+    #     Returns
+    #     -------
+    #     ancestor : TreeNode or None
+    #         The lowest common ancestor. `None` if the nodes have no
+    #         common ancestor, i.e. they are not in the same tree
+    #     """
+    #     cdef int i
+    #     cdef TreeNode lca = None
+    #     # Create two paths from the leaves to root
+    #     cdef list self_path = _create_path_to_root(self)
+    #     cdef list other_path = _create_path_to_root(node)
+    #     # Reverse Iteration through path (beginning from root)
+    #     # until the paths diverge
+    #     for i in range(-1, -min(len(self_path), len(other_path))-1, -1):
+    #         if self_path[i] is other_path[i]:
+    #             # Same node -> common ancestor
+    #             lca = self_path[i]
+    #         else:
+    #             # Different node -> Not common ancestor
+    #             # -> return last common ancewstor found
+    #             break
+    #     return lca
     
-    def get_indices(self):
-        """
-        get_indices()
+    # def get_indices(self):
+    #     """
+    #     get_indices()
         
-        Get an array of reference indices that leaf nodes of this node
-        contain.
+    #     Get an array of reference indices that leaf nodes of this node
+    #     contain.
 
-        This method identifies all leaf nodes, which have this node as
-        ancestor and puts the contained indices into an array.
-        If this node is a leaf node itself, the array contains the
-        reference index of this node as single element.
+    #     This method identifies all leaf nodes, which have this node as
+    #     ancestor and puts the contained indices into an array.
+    #     If this node is a leaf node itself, the array contains the
+    #     reference index of this node as single element.
 
-        Returns
-        -------
-        indices : ndarray, dtype=int32
-            The reference indices of direct and indirect child leaf
-            nodes of this node.
+    #     Returns
+    #     -------
+    #     indices : ndarray, dtype=int32
+    #         The reference indices of direct and indirect child leaf
+    #         nodes of this node.
 
-        Examples
-        --------
+    #     Examples
+    #     --------
 
-        >>> leaf0 = TreeNode(index=0)
-        >>> leaf1 = TreeNode(index=1)
-        >>> leaf2 = TreeNode(index=2)
-        >>> leaf3 = TreeNode(index=3)
-        >>> intr0 = TreeNode([leaf0, leaf2], [0, 0])
-        >>> intr1 = TreeNode([leaf1, leaf3], [0, 0])
-        >>> root  = TreeNode([intr0, intr1], [0, 0])
-        >>> print(leaf0.get_indices())
-        [0]
-        >>> print(intr0.get_indices())
-        [0 2]
-        >>> print(intr1.get_indices())
-        [1 3]
-        >>> print(root.get_indices())
-        [0 2 1 3]
-        """
-        cdef TreeNode leaf
-        return np.array(
-            [leaf._index for leaf in self.get_leaves()], dtype=np.int32
-        )
+    #     >>> leaf0 = TreeNode(index=0)
+    #     >>> leaf1 = TreeNode(index=1)
+    #     >>> leaf2 = TreeNode(index=2)
+    #     >>> leaf3 = TreeNode(index=3)
+    #     >>> intr0 = TreeNode([leaf0, leaf2], [0, 0])
+    #     >>> intr1 = TreeNode([leaf1, leaf3], [0, 0])
+    #     >>> root  = TreeNode([intr0, intr1], [0, 0])
+    #     >>> print(leaf0.get_indices())
+    #     [0]
+    #     >>> print(intr0.get_indices())
+    #     [0 2]
+    #     >>> print(intr1.get_indices())
+    #     [1 3]
+    #     >>> print(root.get_indices())
+    #     [0 2 1 3]
+    #     """
+    #     cdef TreeNode leaf
+    #     return np.array(
+    #         [leaf._index for leaf in self.get_leaves()], dtype=np.int32
+    #     )
 
-    def get_leaves(self):
-        """
-        get_leaves()
+    # def get_leaves(self):
+    #     """
+    #     get_leaves()
         
-        Get a list of leaf nodes that are direct or indirect child nodes
-        of this node.
+    #     Get a list of leaf nodes that are direct or indirect child nodes
+    #     of this node.
 
-        This method identifies all leaf nodes, which have this node as
-        ancestor.
-        If this node is a leaf node itself, the list contains this node
-        as single element.
+    #     This method identifies all leaf nodes, which have this node as
+    #     ancestor.
+    #     If this node is a leaf node itself, the list contains this node
+    #     as single element.
 
-        Returns
-        -------
-        leaf_nodes : list
-            The leaf nodes, that are direct or indirect child nodes
-            of this node.
-        """
-        cdef list leaf_list = []
-        # delegate to 'cdef' method
-        # to reduce overhead of recursive function calling
-        _get_leaves(self, leaf_list)
-        return leaf_list
+    #     Returns
+    #     -------
+    #     leaf_nodes : list
+    #         The leaf nodes, that are direct or indirect child nodes
+    #         of this node.
+    #     """
+    #     cdef list leaf_list = []
+    #     # delegate to 'cdef' method
+    #     # to reduce overhead of recursive function calling
+    #     _get_leaves(self, leaf_list)
+    #     return leaf_list
     
-    def get_leaf_count(self):
-        """"
-        get_leaf_count()
+    # def get_leaf_count(self):
+    #     """"
+    #     get_leaf_count()
 
-        Get the number of direct or indirect leaves of this ńode.
+    #     Get the number of direct or indirect leaves of this ńode.
 
-        This method identifies all leaf nodes, which have this node as
-        ancestor.
-        If this node is a leaf node itself, 1 is returned.
-        """
-        return _get_leaf_count(self)
+    #     This method identifies all leaf nodes, which have this node as
+    #     ancestor.
+    #     If this node is a leaf node itself, 1 is returned.
+    #     """
+    #     return _get_leaf_count(self)
     
-    def to_newick(self, labels=None, bint include_distance=True, 
-                  round_distance=None):
-        """
-        to_newick(labels=None, include_distance=True)
+    # def to_newick(self, labels=None, bint include_distance=True, 
+    #               round_distance=None):
+    #     """
+    #     to_newick(labels=None, include_distance=True)
         
-        Obtain the node represented in Newick notation.
+    #     Obtain the node represented in Newick notation.
 
-        The terminal semicolon is not included.
+    #     The terminal semicolon is not included.
 
-        Parameters
-        ----------
-        labels : iterable object of str
-            The labels the indices in the leaf nodes refer to
-        include_distance : bool
-            If true, the distances are displayed in the newick notation,
-            otherwise they are omitted.
-        round_distance : int, optional
-            If set, the distances are rounded to the given number of
-            digits.
+    #     Parameters
+    #     ----------
+    #     labels : iterable object of str
+    #         The labels the indices in the leaf nodes refer to
+    #     include_distance : bool
+    #         If true, the distances are displayed in the newick notation,
+    #         otherwise they are omitted.
+    #     round_distance : int, optional
+    #         If set, the distances are rounded to the given number of
+    #         digits.
         
-        Returns
-        -------
-        newick : str
-            The Newick notation of the node.
+    #     Returns
+    #     -------
+    #     newick : str
+    #         The Newick notation of the node.
 
-        Examples
-        --------
+    #     Examples
+    #     --------
         
-        >>> leaf1 = TreeNode(index=0)
-        >>> leaf2 = TreeNode(index=1)
-        >>> leaf3 = TreeNode(index=2)
-        >>> inter = TreeNode([leaf1, leaf2], [5.0, 7.0])
-        >>> root  = TreeNode([inter, leaf3], [3.0, 10.0])
-        >>> print(root.to_newick())
-        ((0:5.0,1:7.0):3.0,2:10.0):0.0
-        >>> print(root.to_newick(include_distance=False))
-        ((0,1),2)
-        >>> labels = ["foo", "bar", "foobar"]
-        >>> print(root.to_newick(labels=labels, include_distance=False))
-        ((foo,bar),foobar)
-        """
-        if self.is_leaf():
-            if labels is not None:
-                for label in labels:
-                    label = labels[self._index]
-                    # Characters that are part of the Newick syntax
-                    # are illegal
-                    illegal_chars = [",",":",";","(",")"]
-                    for char in illegal_chars:
-                        if char in label:
-                            raise ValueError(
-                                f"Label '{label}' contains "
-                                f"illegal character '{char}'"
-                            )
-            else:
-                label = str(self._index)
-            if include_distance:
-                if round_distance is None:
-                    return f"{label}:{self._distance}"
-                else:
-                    return f"{label}:{self._distance:.{round_distance}f}"
-            else:
-                return f"{label}"
-        else:
-            # Build string in a recursive way
-            child_strings = [child.to_newick(
-                labels, include_distance, round_distance
-            ) for child in self._children]
-            if include_distance:
-                if round_distance is None:
-                    return f"({','.join(child_strings)}):{self._distance}"
-                else:
-                    return (
-                        f"({','.join(child_strings)}):"
-                        f"{self._distance:.{round_distance}f}"
-                    )
-            else:
-                return f"({','.join(child_strings)})"
+    #     >>> leaf1 = TreeNode(index=0)
+    #     >>> leaf2 = TreeNode(index=1)
+    #     >>> leaf3 = TreeNode(index=2)
+    #     >>> inter = TreeNode([leaf1, leaf2], [5.0, 7.0])
+    #     >>> root  = TreeNode([inter, leaf3], [3.0, 10.0])
+    #     >>> print(root.to_newick())
+    #     ((0:5.0,1:7.0):3.0,2:10.0):0.0
+    #     >>> print(root.to_newick(include_distance=False))
+    #     ((0,1),2)
+    #     >>> labels = ["foo", "bar", "foobar"]
+    #     >>> print(root.to_newick(labels=labels, include_distance=False))
+    #     ((foo,bar),foobar)
+    #     """
+    #     if self.is_leaf():
+    #         if labels is not None:
+    #             for label in labels:
+    #                 label = labels[self._index]
+    #                 # Characters that are part of the Newick syntax
+    #                 # are illegal
+    #                 illegal_chars = [",",":",";","(",")"]
+    #                 for char in illegal_chars:
+    #                     if char in label:
+    #                         raise ValueError(
+    #                             f"Label '{label}' contains "
+    #                             f"illegal character '{char}'"
+    #                         )
+    #         else:
+    #             label = str(self._index)
+    #         if include_distance:
+    #             if round_distance is None:
+    #                 return f"{label}:{self._distance}"
+    #             else:
+    #                 return f"{label}:{self._distance:.{round_distance}f}"
+    #         else:
+    #             return f"{label}"
+    #     else:
+    #         # Build string in a recursive way
+    #         child_strings = [child.to_newick(
+    #             labels, include_distance, round_distance
+    #         ) for child in self._children]
+    #         if include_distance:
+    #             if round_distance is None:
+    #                 return f"({','.join(child_strings)}):{self._distance}"
+    #             else:
+    #                 return (
+    #                     f"({','.join(child_strings)}):"
+    #                     f"{self._distance:.{round_distance}f}"
+    #                 )
+    #         else:
+    #             return f"({','.join(child_strings)})"
     
     @staticmethod
     def from_newick(str newick, list labels=None):
@@ -990,175 +992,175 @@ cdef class TreeNode:
         return hash((self._index, children_set, self._distance))
 
 
-cdef _get_leaves(TreeNode node, list leaf_list):
-    cdef TreeNode child
-    if node._index == -1:
-        # Intermediate node -> Recursive calls
-        for child in node._children:
-            _get_leaves(child, leaf_list)
-    else:
-        # Node itself is leaf node -> add node -> terminate
-        leaf_list.append(node)
+# cdef _get_leaves(TreeNode node, list leaf_list):
+#     cdef TreeNode child
+#     if node._index == -1:
+#         # Intermediate node -> Recursive calls
+#         for child in node._children:
+#             _get_leaves(child, leaf_list)
+#     else:
+#         # Node itself is leaf node -> add node -> terminate
+#         leaf_list.append(node)
 
 
-cdef int _get_leaf_count(TreeNode node):
-    cdef TreeNode child
-    cdef int count = 0
-    if node._index == -1:
-        # Intermediate node -> Recursive calls
-        for child in node._children:
-            count += _get_leaf_count(child)
-        return count
-    else:
-        # Leaf node -> return count of itself = 1
-        return 1
+# cdef int _get_leaf_count(TreeNode node):
+#     cdef TreeNode child
+#     cdef int count = 0
+#     if node._index == -1:
+#         # Intermediate node -> Recursive calls
+#         for child in node._children:
+#             count += _get_leaf_count(child)
+#         return count
+#     else:
+#         # Leaf node -> return count of itself = 1
+#         return 1
 
 
-cdef list _create_path_to_root(TreeNode node):
-    """
-    Create a list of nodes representing the path from this node to the
-    specified node
-    """
-    cdef list path = []
-    cdef TreeNode current_node = node
-    while current_node is not None:
-        path.append(current_node)
-        current_node = current_node._parent
-    return path
+# cdef list _create_path_to_root(TreeNode node):
+#     """
+#     Create a list of nodes representing the path from this node to the
+#     specified node
+#     """
+#     cdef list path = []
+#     cdef TreeNode current_node = node
+#     while current_node is not None:
+#         path.append(current_node)
+#         current_node = current_node._parent
+#     return path
 
 
 
-def as_binary(tree_or_node):
-    """
-    as_binary(tree_or_node)
+# def as_binary(tree_or_node):
+#     """
+#     as_binary(tree_or_node)
 
-    Convert a tree into a binary tree.
+#     Convert a tree into a binary tree.
 
-    In general a :class:`TreeNode` can have more or less than two
-    children.
-    However guide trees usually expect each intermediate node to have
-    exactly two child nodes.
-    This function creates a binary :class:`Tree` (or :class:`TreeNode`)
-    for the given :class:`Tree` (or :class:`TreeNode`):
-    Intermediate nodes that have only a single child are deleted and its
-    parent node is directly connected to its child node.
-    Intermediate nodes that have more than two childs are divided into
-    multiple nodes (distances are preserved).
+#     In general a :class:`TreeNode` can have more or less than two
+#     children.
+#     However guide trees usually expect each intermediate node to have
+#     exactly two child nodes.
+#     This function creates a binary :class:`Tree` (or :class:`TreeNode`)
+#     for the given :class:`Tree` (or :class:`TreeNode`):
+#     Intermediate nodes that have only a single child are deleted and its
+#     parent node is directly connected to its child node.
+#     Intermediate nodes that have more than two childs are divided into
+#     multiple nodes (distances are preserved).
     
-    Parameters
-    ----------
-    tree_or_node : Tree or TreeNode
-        The tree or node to be converted into a binary tree or node.
+#     Parameters
+#     ----------
+#     tree_or_node : Tree or TreeNode
+#         The tree or node to be converted into a binary tree or node.
     
-    Returns
-    -------
-    binary_tree_or_node : Tree or TreeNode
-        The converted tree or node.
-    """
-    if isinstance(tree_or_node, Tree):
-        node, _ = _as_binary(tree_or_node.root)
-        return Tree(node)
-    elif isinstance(tree_or_node, TreeNode):
-        node, _ = _as_binary(tree_or_node)
-        return _as_binary(node)
-    else:
-        raise TypeError(
-            f"Expected 'Tree' or 'TreeNode', not {type(tree_or_node).__name__}"
-        )
+#     Returns
+#     -------
+#     binary_tree_or_node : Tree or TreeNode
+#         The converted tree or node.
+#     """
+#     if isinstance(tree_or_node, Tree):
+#         node, _ = _as_binary(tree_or_node.root)
+#         return Tree(node)
+#     elif isinstance(tree_or_node, TreeNode):
+#         node, _ = _as_binary(tree_or_node)
+#         return _as_binary(node)
+#     else:
+#         raise TypeError(
+#             f"Expected 'Tree' or 'TreeNode', not {type(tree_or_node).__name__}"
+#         )
 
-cdef _as_binary(TreeNode node):
-    """
-    The actual logic wrapped by :func:`as_binary()`.
+# cdef _as_binary(TreeNode node):
+#     """
+#     The actual logic wrapped by :func:`as_binary()`.
     
-    Parameters
-    ----------
-    node : TreeNode
-        The node to be converted.
+#     Parameters
+#     ----------
+#     node : TreeNode
+#         The node to be converted.
     
-    Returns
-    -------
-    binary_node: TreeNode
-        The converted node.
-    distance : float
-        The distance of the converted node to its parent
-    """
-    cdef TreeNode child
-    cdef TreeNode current_div_node
-    cdef tuple children
-    cdef list rem_children
-    cdef list distances
-    cdef float distance
+#     Returns
+#     -------
+#     binary_node: TreeNode
+#         The converted node.
+#     distance : float
+#         The distance of the converted node to its parent
+#     """
+#     cdef TreeNode child
+#     cdef TreeNode current_div_node
+#     cdef tuple children
+#     cdef list rem_children
+#     cdef list distances
+#     cdef float distance
 
-    children = node.children
-    if children is None:
-        # Leaf node
-        return TreeNode(index=node.index), node.distance
-    elif len(children) == 1:
-        # Intermediate node with one child
-        # -> Omit node and directly connect its child to its parent
-        # The distances are added
-        #
-        #      |--            |--   
-        #      |              |   
-        # --|--|--   ->   ----|--  
-        #      |              |   
-        #      |--            |-- 
-        #
-        child, distance = _as_binary(node.children[0])
-        if node.is_root():
-            # Child is new root -> No distance to parent
-            return child, None
-        else:
-            return child, node.distance + distance
-    elif len(children) > 2:
-        # Intermediate node with more than two childs
-        # -> Create a new node having two childs:
-        #    - One of the childs of the original node
-        #    - The original node with one child less (distance = 0)
-        # Repeat until all children are put into binary nodes
-        #
-        #   |--          |--
-        #   |          --|  |--
-        # --|--   ->     |--|
-        #   |               |--
-        #   |--
-        #
-        # The remaining children
-        rem_children, distances = [list(tup) for tup in zip(
-            *[_as_binary(child) for child in children]
-        )]
-        current_div_node = None
-        while len(rem_children) > 0:
-            if current_div_node is None:
-                # The bottom-most node is created
-                #-> Gets two of the remaining childs
-                current_div_node = TreeNode(
-                    rem_children[:2],
-                    distances[:2]
-                )
-                # Pop the two utilized remaining childs from the list
-                rem_children.pop(0)
-                rem_children.pop(0)
-                distances.pop(0)
-                distances.pop(0)
-            else:
-                # A node is created that gets one remaining child
-                # and the intermediate node from the last step
-                current_div_node = TreeNode(
-                    (current_div_node, rem_children[0]),
-                    (0, distances[0]) 
-                )
-                # Pop the utilized remaining child from the list
-                rem_children.pop(0)
-                distances.pop(0)
-        return current_div_node, node.distance
-    else:
-        # Intermediate node with exactly two childs
-        # -> Keep node unchanged
-        binary_children, distances = [list(tup) for tup in zip(
-            *[_as_binary(child) for child in children]
-        )]
-        return TreeNode(binary_children, distances), node.distance
+#     children = node.children
+#     if children is None:
+#         # Leaf node
+#         return TreeNode(index=node.index), node.distance
+#     elif len(children) == 1:
+#         # Intermediate node with one child
+#         # -> Omit node and directly connect its child to its parent
+#         # The distances are added
+#         #
+#         #      |--            |--   
+#         #      |              |   
+#         # --|--|--   ->   ----|--  
+#         #      |              |   
+#         #      |--            |-- 
+#         #
+#         child, distance = _as_binary(node.children[0])
+#         if node.is_root():
+#             # Child is new root -> No distance to parent
+#             return child, None
+#         else:
+#             return child, node.distance + distance
+#     elif len(children) > 2:
+#         # Intermediate node with more than two childs
+#         # -> Create a new node having two childs:
+#         #    - One of the childs of the original node
+#         #    - The original node with one child less (distance = 0)
+#         # Repeat until all children are put into binary nodes
+#         #
+#         #   |--          |--
+#         #   |          --|  |--
+#         # --|--   ->     |--|
+#         #   |               |--
+#         #   |--
+#         #
+#         # The remaining children
+#         rem_children, distances = [list(tup) for tup in zip(
+#             *[_as_binary(child) for child in children]
+#         )]
+#         current_div_node = None
+#         while len(rem_children) > 0:
+#             if current_div_node is None:
+#                 # The bottom-most node is created
+#                 #-> Gets two of the remaining childs
+#                 current_div_node = TreeNode(
+#                     rem_children[:2],
+#                     distances[:2]
+#                 )
+#                 # Pop the two utilized remaining childs from the list
+#                 rem_children.pop(0)
+#                 rem_children.pop(0)
+#                 distances.pop(0)
+#                 distances.pop(0)
+#             else:
+#                 # A node is created that gets one remaining child
+#                 # and the intermediate node from the last step
+#                 current_div_node = TreeNode(
+#                     (current_div_node, rem_children[0]),
+#                     (0, distances[0]) 
+#                 )
+#                 # Pop the utilized remaining child from the list
+#                 rem_children.pop(0)
+#                 distances.pop(0)
+#         return current_div_node, node.distance
+#     else:
+#         # Intermediate node with exactly two childs
+#         # -> Keep node unchanged
+#         binary_children, distances = [list(tup) for tup in zip(
+#             *[_as_binary(child) for child in children]
+#         )]
+#         return TreeNode(binary_children, distances), node.distance
 
 
 

@@ -10,28 +10,28 @@ import biotite.sequence.phylo as phylo
 from tests.util import data_dir
 
 
-# do i need these fixtures?
-@pytest.fixture
-def distances():
-    # Distances are based on the example
-    # "Dendrogram of the BLOSUM62 matrix"
-    # with the small modification M[i,j] += i+j
-    # to reduce ambiguity in the tree construction.
-    return np.loadtxt(join(data_dir("sequence"), "distances.txt"), dtype=int)
+# # do i need these fixtures?
+# @pytest.fixture
+# def distances():
+#     # Distances are based on the example
+#     # "Dendrogram of the BLOSUM62 matrix"
+#     # with the small modification M[i,j] += i+j
+#     # to reduce ambiguity in the tree construction.
+#     return np.loadtxt(join(data_dir("sequence"), "distances.txt"), dtype=int)
 
 
-@pytest.fixture
-def upgma_newick():
-    # Newick notation of the tree created from 'distances.txt',
-    # created via DendroUPGMA
-    with open(join(data_dir("sequence"), "newick_upgma.txt"), "r") as file:
-        newick = file.read().strip()
-    return newick
+# @pytest.fixture
+# def upgma_newick():
+#     # Newick notation of the tree created from 'distances.txt',
+#     # created via DendroUPGMA
+#     with open(join(data_dir("sequence"), "newick_upgma.txt"), "r") as file:
+#         newick = file.read().strip()
+#     return newick
 
 
-@pytest.fixture
-def tree(distances):
-    return phylo.upgma(distances)
+# @pytest.fixture
+# def tree(distances):
+#     return phylo.upgma(distances)
 
 
 def test_distances(tree):
