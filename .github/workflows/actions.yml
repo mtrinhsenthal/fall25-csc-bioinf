@@ -20,6 +20,8 @@ jobs:
           python-version: "3.13"
       - name: Install Biopython
         run: pip install biopython
+      - name: Install biotite
+        run: pip install biotite
       - name: Set up Codon Python bridge
         run: |
           pip install find_libpython
@@ -29,7 +31,7 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       # - name: Week 1
       #   run: bash week1/evaluate.sh
-      - name: Week 2
+      - name: Week 3
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
-          bash week2/evaluate.sh
+          bash week3/evaluate.sh

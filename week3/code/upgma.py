@@ -12,12 +12,12 @@ cimport numpy as np
 from .tree import Tree, TreeNode
 import numpy as np
 
-ctypedef np.float32_t float32
+ctypedef np.float64_t float64
 ctypedef np.uint8_t uint8
 ctypedef np.uint32_t uint32
 
 
-cdef float32 MAX_FLOAT = np.finfo(np.float32).max
+cdef float64 MAX_FLOAT = np.finfo(np.float64).max
 
 
 @cython.boundscheck(False)
@@ -67,7 +67,7 @@ def upgma(np.ndarray distances):
     """
     cdef int i=0, j=0, k=0
     cdef int i_min=0, j_min=0
-    cdef float32 dist, dist_min
+    cdef float64 dist, dist_min
     cdef float mean
     cdef float height
 
@@ -98,13 +98,13 @@ def upgma(np.ndarray distances):
     )
     # Distance of each node from leaf nodes,
     # used for calculation of distance to child nodes
-    cdef float32[:] node_heights = np.zeros(
-        distances.shape[0], dtype=np.float32
+    cdef float64[:] node_heights = np.zeros(
+        distances.shape[0], dtype=np.float64
     )
 
 
     # Cluster indices
-    cdef float32[:,:] distances_v = distances.astype(np.float32, copy=True)
+    cdef float64[:,:] distances_v = distances.astype(np.float64, copy=True)
     # Exit loop via 'break'
     while True:
 

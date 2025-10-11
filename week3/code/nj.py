@@ -12,12 +12,12 @@ cimport numpy as np
 from .tree import Tree, TreeNode
 import numpy as np
 
-ctypedef np.float32_t float32
+ctypedef np.float64_t float64
 ctypedef np.uint8_t uint8
 ctypedef np.uint32_t uint32
 
 
-cdef float32 MAX_FLOAT = np.finfo(np.float32).max
+cdef float64 MAX_FLOAT = np.finfo(np.float64).max
 
 
 @cython.boundscheck(False)
@@ -75,8 +75,8 @@ def neighbor_joining(np.ndarray distances):
     """
     cdef int i=0, j=0, k=0, u=0
     cdef int i_min=0, j_min=0
-    cdef float32 dist=0, dist_min, dist_sum=0
-    cdef float32 node_dist_i=0, node_dist_j=0, node_dist_k=0
+    cdef float64 dist=0, dist_min, dist_sum=0
+    cdef float64 node_dist_i=0, node_dist_j=0, node_dist_k=0
     
 
     if distances.shape[0] != distances.shape[1] \
@@ -105,14 +105,14 @@ def neighbor_joining(np.ndarray distances):
         len(distances) - np.count_nonzero(np.asarray(is_clustered_v))
     # The divergence of of a 'taxum'
     # describes the relative evolution rate
-    cdef float32[:] divergence_v = np.zeros(
-        distances.shape[0], dtype=np.float32
+    cdef float64[:] divergence_v = np.zeros(
+        distances.shape[0], dtype=np.float64
     )
     # Triangular matrix for storing the divergence corrected distances
-    cdef float32[:,:] corr_distances_v = np.zeros(
-        (distances.shape[0],) * 2, dtype=np.float32
+    cdef float64[:,:] corr_distances_v = np.zeros(
+        (distances.shape[0],) * 2, dtype=np.float64
     )
-    cdef float32[:,:] distances_v = distances.astype(np.float32, copy=True)
+    cdef float64[:,:] distances_v = distances.astype(np.float64, copy=True)
 
     # Cluster indices
 
