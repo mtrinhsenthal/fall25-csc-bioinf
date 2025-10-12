@@ -1,35 +1,10 @@
 import numpy as np
 from python import biotite
-import upgma
-# from python import pytest
-
-# bind phylo name to the biotite submodule (original code used `import biotite.sequence.phylo as phylo`)
-# phylo = biotite.sequence.phylo
-
-
-# # do i need these fixtures?
-# @pytest.fixture
-# def distances():
-#     # Distances are based on the example
-#     # "Dendrogram of the BLOSUM62 matrix"
-#     # with the small modification M[i,j] += i+j
-#     # to reduce ambiguity in the tree construction.
-#     return np.loadtxt(join(data_dir("sequence"), "distances.txt"), dtype=int)
-
-
-# @pytest.fixture
-# def upgma_newick():
-#     # Newick notation of the tree created from 'distances.txt',
-#     # created via DendroUPGMA
-#     with open(join(data_dir("sequence"), "newick_upgma.txt"), "r") as file:
-#         newick = file.read().strip()
-#     return newick
-
-
-# @pytest.fixture
-# def tree(distances):
-#     return phylo.upgma(distances)
-
+from upgma import upgma
+from python import pytest
+from python import biotite.sequence.phylo as phylo
+from python import numpy as pnp
+import numpy.pybridge
 
 def test_distances(tree):
     # Tree is created via UPGMA
@@ -107,24 +82,12 @@ def test_neighbor_joining():
     assert test_tree == ref_tree
 
 
-# distances = np.array([
-#     [0, 2, 4, 6, 6],
-#     [2, 0, 4, 6, 6],
-#     [4, 4, 0, 6, 6],
-#     [6, 6, 6, 0, 4],
-#     [6, 6, 6, 4, 0]
-# ])
-
-import numpy as np
-
-distances = np.array([
-    [0, 1, 7, 7, 9],
-    [1, 0, 7, 6, 8],
-    [7, 7, 0, 2, 4],
-    [7, 6, 2, 0, 3],
-    [9, 8, 4, 3, 0],
-], dtype=np.float64)
-
+distances: np.ndarray[int,2] = pnp.loadtxt("../tests/sequence/data/distances.txt", dtype=pnp.int64)
+with open(f'../tests/sequence/data/newick_upgma.txt', 'r') as f:
+    upgma_newick = f.read().strip()
 
 # Generate the UPGMA tree
-tree = upgma.upgma(distances)
+tree = upgma(distances)
+test_distances(tree)
+test_upgma(tree, upgma_newick)
+test_neighbor_joining()

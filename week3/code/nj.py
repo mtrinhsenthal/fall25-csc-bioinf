@@ -14,30 +14,6 @@ MAX_FLOAT: float = np.finfo(np.float64).max
 
 
 def neighbor_joining(distances: np.ndarray) -> Tree:
-    """
-    Perform hierarchical clustering using the Neighbor Joining algorithm.
-
-    Unlike UPGMA, this method does not assume a constant evolution rate.
-    The resulting tree is unrooted, except that the returned representation
-    has a root node with three children.
-
-    Parameters
-    ----------
-    distances : ndarray, shape (n, n)
-        Pairwise distance matrix.
-
-    Returns
-    -------
-    tree : Tree
-        A rooted tree. The `index` attribute in each leaf node corresponds
-        to the index of `distances`.
-
-    Raises
-    ------
-    ValueError
-        If the matrix is asymmetric, contains invalid values, or
-        has fewer than 4 taxa.
-    """
 
     n = distances.shape[0]
     if distances.shape[1] != n or not np.allclose(distances.T, distances):

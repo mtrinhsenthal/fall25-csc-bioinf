@@ -6,10 +6,10 @@ __name__ = "biotite"
 __author__ = "Patrick Kunzmann"
 __all__ = ["Copyable"]
 
-import abc
+# import abc
 
 
-class Copyable(metaclass=abc.ABCMeta):
+class Copyable(): #remove metaclass
     """
     Base class for all objects, that should be copyable.
 
