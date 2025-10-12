@@ -1,221 +1,152 @@
-# This source code is part of the Biotite package and is distributed
-# under the 3-Clause BSD License. Please see 'LICENSE.rst' for further
-# information.
+# Converted for Codon
+# Original: biotite.sequence.phylo.nj
+# License: 3-Clause BSD License
 
 __name__ = "biotite.sequence.phylo"
 __author__ = "Patrick Kunzmann"
 __all__ = ["neighbor_joining"]
 
-cimport cython
-cimport numpy as np
-
-from .tree import Tree, TreeNode
 import numpy as np
-
-ctypedef np.float64_t float64
-ctypedef np.uint8_t uint8
-ctypedef np.uint32_t uint32
+from .tree import Tree, TreeNode
 
 
-cdef float64 MAX_FLOAT = np.finfo(np.float64).max
+MAX_FLOAT: float = np.finfo(np.float64).max
 
 
-@cython.boundscheck(False)
-@cython.wraparound(False)
-def neighbor_joining(np.ndarray distances):
+def neighbor_joining(distances: np.ndarray) -> Tree:
     """
-    neighbor_join(distances)
-    
-    Perform hierarchical clustering using the
-    *neighbor joining* algorithm. :footcite:`Saitou1987, Studier1988`
+    Perform hierarchical clustering using the Neighbor Joining algorithm.
 
-    In contrast to UPGMA this algorithm does not assume a constant
-    evolution rate. The resulting tree is considered to be unrooted.
+    Unlike UPGMA, this method does not assume a constant evolution rate.
+    The resulting tree is unrooted, except that the returned representation
+    has a root node with three children.
 
     Parameters
     ----------
-    distances : ndarray, shape=(n,n)
+    distances : ndarray, shape (n, n)
         Pairwise distance matrix.
 
     Returns
     -------
     tree : Tree
-        A rooted tree. The `index` attribute in the leaf
-        :class:`TreeNode` objects refer to the indices of `distances`.
+        A rooted tree. The `index` attribute in each leaf node corresponds
+        to the index of `distances`.
 
     Raises
     ------
     ValueError
-        If the distance matrix is not symmetric
-        or if any matrix entry is below 0.
-    
-    Notes
-    -----
-    The created tree is binary except for the root node, that has three
-    child notes
-    
-    References
-    ----------
-    
-    .. footbibliography::
-
-    Examples
-    --------
-    
-    >>> distances = np.array([
-    ...     [0, 1, 7, 7, 9],
-    ...     [1, 0, 7, 6, 8],
-    ...     [7, 7, 0, 2, 4],
-    ...     [7, 6, 2, 0, 3],
-    ...     [9, 8, 4, 3, 0],
-    ... ])
-    >>> tree = neighbor_joining(distances)
-    >>> print(tree.to_newick(include_distance=False))
-    (3,(2,(1,0)),4);
+        If the matrix is asymmetric, contains invalid values, or
+        has fewer than 4 taxa.
     """
-    cdef int i=0, j=0, k=0, u=0
-    cdef int i_min=0, j_min=0
-    cdef float64 dist=0, dist_min, dist_sum=0
-    cdef float64 node_dist_i=0, node_dist_j=0, node_dist_k=0
-    
 
-    if distances.shape[0] != distances.shape[1] \
-        or not np.allclose(distances.T, distances):
-            raise ValueError("Distance matrix must be symmetric")
+    n = distances.shape[0]
+    if distances.shape[1] != n or not np.allclose(distances.T, distances):
+        raise ValueError("Distance matrix must be symmetric")
     if np.isnan(distances).any():
         raise ValueError("Distance matrix contains NaN values")
     if (distances >= MAX_FLOAT).any():
         raise ValueError("Distance matrix contains infinity")
-    if distances.shape[0] < 4:
+    if n < 4:
         raise ValueError("At least 4 nodes are required")
     if (distances < 0).any():
         raise ValueError("Distances must be positive")
 
+    # Initialize leaves
+    nodes: list[TreeNode | None] = [TreeNode(index=i) for i in range(n)]
+    is_clustered = np.full(n, False, dtype=bool)
+    divergence = np.zeros(n, dtype=np.float64)
+    corr_distances = np.zeros((n, n), dtype=np.float64)
+    distances_v = distances.astype(np.float64, copy=True)
+    n_rem_nodes = n
 
-    # Keep track on clustered indices
-    cdef np.ndarray nodes = np.array(
-        [TreeNode(index=i) for i in range(distances.shape[0])]
-    )
-    # Indicates whether an index in the distance matrix has already been
-    # clustered and the repsective rows and columns can be ignored
-    cdef uint8[:] is_clustered_v = np.full(
-        distances.shape[0], False, dtype=np.uint8
-    )
-    cdef int n_rem_nodes = \
-        len(distances) - np.count_nonzero(np.asarray(is_clustered_v))
-    # The divergence of of a 'taxum'
-    # describes the relative evolution rate
-    cdef float64[:] divergence_v = np.zeros(
-        distances.shape[0], dtype=np.float64
-    )
-    # Triangular matrix for storing the divergence corrected distances
-    cdef float64[:,:] corr_distances_v = np.zeros(
-        (distances.shape[0],) * 2, dtype=np.float64
-    )
-    cdef float64[:,:] distances_v = distances.astype(np.float64, copy=True)
-
-    # Cluster indices
-
-    # Exit loop via 'return'
     while True:
-
-        # Calculate divergence
-        for i in range(distances_v.shape[0]):
-            if is_clustered_v[i]:
+        # Calculate divergence for each unclustered node
+        for i in range(n):
+            if is_clustered[i]:
                 continue
-            dist_sum = 0
-            for k in range(distances_v.shape[0]):
-                if is_clustered_v[k]:
-                    continue
-                dist_sum += distances_v[i,k]
-            divergence_v[i] = dist_sum
-        
-        # Calculate corrected distance matrix
-        for i in range(distances_v.shape[0]):
-            if is_clustered_v[i]:
-                    continue
-            for j in range(i):
-                if is_clustered_v[j]:
-                    continue
-                corr_distances_v[i,j] = \
-                    (n_rem_nodes - 2) * distances_v[i,j] \
-                    - divergence_v[i] - divergence_v[j]
+            dist_sum = 0.0
+            for k in range(n):
+                if not is_clustered[k]:
+                    dist_sum += distances_v[i, k]
+            divergence[i] = dist_sum
 
-        # Find minimum corrected distance
-        dist_min = MAX_FLOAT
-        i_min = -1
-        j_min = -1
-        for i in range(corr_distances_v.shape[0]):
-            if is_clustered_v[i]:
-                    continue
+        # Compute corrected distance matrix
+        for i in range(n):
+            if is_clustered[i]:
+                continue
             for j in range(i):
-                if is_clustered_v[j]:
+                if is_clustered[j]:
                     continue
-                dist = corr_distances_v[i,j]
+                corr_distances[i, j] = (
+                    (n_rem_nodes - 2) * distances_v[i, j]
+                    - divergence[i]
+                    - divergence[j]
+                )
+
+        # Find pair with smallest corrected distance
+        dist_min = MAX_FLOAT
+        i_min, j_min = -1, -1
+        for i in range(n):
+            if is_clustered[i]:
+                continue
+            for j in range(i):
+                if is_clustered[j]:
+                    continue
+                dist = corr_distances[i, j]
                 if dist < dist_min:
-                    dist_min = dist
-                    i_min = i
-                    j_min = j
-        
-        # Check if all nodes have been clustered
+                    dist_min, i_min, j_min = dist, i, j
+
+        # Exit if all nodes are clustered
         if i_min == -1 or j_min == -1:
-            # No distance found -> all leaf nodes are clustered
-            # -> exit loop
             break
-        
-        # Cluster the nodes with minimum distance
-        # replacing the node at position i_min
-        # leaving the node at position j_min empty
-        # (is_clustered_v -> True)
+
+        # Compute branch lengths for the new node
         node_dist_i = 0.5 * (
-            distances_v[i_min,j_min]
-            + 1/(n_rem_nodes-2) * (divergence_v[i_min] - divergence_v[j_min])
+            distances_v[i_min, j_min]
+            + (divergence[i_min] - divergence[j_min]) / (n_rem_nodes - 2)
         )
         node_dist_j = 0.5 * (
-            distances_v[i_min,j_min]
-            + 1/(n_rem_nodes-2) * (divergence_v[j_min] - divergence_v[i_min])
+            distances_v[i_min, j_min]
+            + (divergence[j_min] - divergence[i_min]) / (n_rem_nodes - 2)
         )
+
         if n_rem_nodes > 3:
-            # Clustering is not finished
-            # -> Create a node with two children
+            # Cluster these two into a new node
+            left, right = nodes[i_min], nodes[j_min]
+            if left is None or right is None:
+                raise RuntimeError("Attempted to cluster missing node")
             nodes[i_min] = TreeNode(
-                (nodes[i_min], nodes[j_min]),
-                (node_dist_i, node_dist_j)
+                children=(left, right),
+                distances=(node_dist_i, node_dist_j),
             )
-            # Mark position j_min as clustered
             nodes[j_min] = None
-            is_clustered_v[j_min] = True
+            is_clustered[j_min] = True
         else:
-            # Clustering is finished
-            # Combine ast three nodes into root node
-            # Find the index of the remaining one of the three nodes
-            # (other than i_min and j_min)
-            is_clustered_v[i_min] = True
-            is_clustered_v[j_min] = True
-            # The index of the remaining one
-            k = np.where(~np.asarray(is_clustered_v, dtype=bool))[0][0]
+            # Final step: combine last three nodes into root
+            is_clustered[i_min] = True
+            is_clustered[j_min] = True
+            k = np.where(~is_clustered)[0][0]
             node_dist_k = 0.5 * (
-                distances_v[i_min,k] + distances_v[j_min,k]
-                - distances_v[i_min,j_min]
+                distances_v[i_min, k]
+                + distances_v[j_min, k]
+                - distances_v[i_min, j_min]
             )
             root = TreeNode(
-                (nodes[i_min], nodes[j_min], nodes[k]),
-                (node_dist_i, node_dist_j, node_dist_k)
+                children=(nodes[i_min], nodes[j_min], nodes[k]),
+                distances=(node_dist_i, node_dist_j, node_dist_k),
             )
-            # Clustering is finished -> put into tree and return
             return Tree(root)
-        
-        # Update distance matrix
-        # Calculate distances of new node to all other nodes
-        for k in range(distances_v.shape[0]):
-            if not is_clustered_v[k] and k != i_min:
-                dist = 0.5 * (
-                    distances_v[i_min,k] + distances_v[j_min,k]
-                    - distances_v[i_min,j_min]
-                )
-                distances_v[i_min,k] = dist
-                distances_v[k,i_min] = dist
 
-        # Update the amount of remaining nodes
-        n_rem_nodes = \
-            len(distances) - np.count_nonzero(np.asarray(is_clustered_v))
+        # Update distance matrix for new cluster
+        for k in range(n):
+            if not is_clustered[k] and k != i_min:
+                new_dist = 0.5 * (
+                    distances_v[i_min, k]
+                    + distances_v[j_min, k]
+                    - distances_v[i_min, j_min]
+                )
+                distances_v[i_min, k] = new_dist
+                distances_v[k, i_min] = new_dist
+
+        # Update remaining node count
+        n_rem_nodes = n - np.count_nonzero(is_clustered)

@@ -1,13 +1,10 @@
-# This source code is part of the Biotite package and is distributed
-# under the 3-Clause BSD License. Please see 'LICENSE.rst' for further
-# information.
-
-from os.path import join
 import numpy as np
-import pytest
-import biotite
-import biotite.sequence.phylo as phylo
-from tests.util import data_dir
+from python import biotite
+import upgma
+# from python import pytest
+
+# bind phylo name to the biotite submodule (original code used `import biotite.sequence.phylo as phylo`)
+# phylo = biotite.sequence.phylo
 
 
 # # do i need these fixtures?
@@ -108,3 +105,26 @@ def test_neighbor_joining():
     test_tree = phylo.neighbor_joining(dist)
 
     assert test_tree == ref_tree
+
+
+# distances = np.array([
+#     [0, 2, 4, 6, 6],
+#     [2, 0, 4, 6, 6],
+#     [4, 4, 0, 6, 6],
+#     [6, 6, 6, 0, 4],
+#     [6, 6, 6, 4, 0]
+# ])
+
+import numpy as np
+
+distances = np.array([
+    [0, 1, 7, 7, 9],
+    [1, 0, 7, 6, 8],
+    [7, 7, 0, 2, 4],
+    [7, 6, 2, 0, 3],
+    [9, 8, 4, 3, 0],
+], dtype=np.float64)
+
+
+# Generate the UPGMA tree
+tree = upgma.upgma(distances)
