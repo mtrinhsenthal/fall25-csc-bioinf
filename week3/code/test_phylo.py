@@ -99,3 +99,5 @@ def run_tests() -> float:
     end = time.perf_counter()
     runtime_ms = (end - start) * 1000
     return (end - start) * 1000
+
+print(run_tests())

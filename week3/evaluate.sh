@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
 
-# PATH=${PATH}:${HOME}/.codon/bin
-# echo "week3"
+PATH=${PATH}:${HOME}/.codon/bin
+echo "week3"
 
 # echo -e "\nRunning tests\n"
 # python3 week3/code/compare_runtimes.py
