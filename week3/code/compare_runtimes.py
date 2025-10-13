@@ -33,8 +33,8 @@ def run_command(cmd):
 
 # Commands for Python and Codon
 commands = {
-    "python": ["python3", "python_versions/p_test_phylo.py"],
-    "codon": ["codon", "run", "-release", "test_phylo.py"],
+    "python": ["python3", "week3/code/python_versions/p_test_phylo.py"],
+    "codon": ["codon", "run", "-release", "week3/code/test_phylo.py"],
 }
 
 results = {}
