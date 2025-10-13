@@ -5,6 +5,7 @@ from python import pytest
 from python import biotite.sequence.phylo as phylo
 from python import numpy as pnp
 import numpy.pybridge
+import time
 
 def test_distances(tree):
     # Tree is created via UPGMA
@@ -85,9 +86,16 @@ def test_neighbor_joining():
 distances: np.ndarray[int,2] = pnp.loadtxt("week3/tests/sequence/data/distances.txt", dtype=pnp.int64)
 with open(f'week3/tests/sequence/data/newick_upgma.txt', 'r') as f:
     upgma_newick = f.read().strip()
-
-# Generate the UPGMA tree
 tree = upgma(distances)
-test_distances(tree)
-test_upgma(tree, upgma_newick)
-test_neighbor_joining()
+
+
+def run_tests() -> float:
+    start = time.perf_counter()
+
+    test_distances(tree)
+    test_upgma(tree, upgma_newick)
+    test_neighbor_joining()
+
+    end = time.perf_counter()
+    runtime_ms = (end - start) * 1000
+    return (end - start) * 1000

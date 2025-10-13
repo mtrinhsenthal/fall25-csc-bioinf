@@ -4,6 +4,7 @@ import pytest
 import biotite
 import biotite.sequence.phylo as phylo
 import numpy as np
+import time
 
 def test_distances(tree):
     # Tree is created via UPGMA
@@ -90,9 +91,15 @@ with open(f'week3/tests/sequence/data/newick_upgma.txt', 'r') as f:
     upgma_newick = f.read().strip()
 
 
-
-# Generate the UPGMA tree
 tree = upgma(distances)
-test_distances(tree)
-test_upgma(tree, upgma_newick)
-test_neighbor_joining()
+
+def run_tests() -> float:
+    start = time.perf_counter()
+
+    test_distances(tree)
+    test_upgma(tree, upgma_newick)
+    test_neighbor_joining()
+
+    end = time.perf_counter()
+    runtime_ms = (end - start) * 1000
+    return (end - start) * 1000
