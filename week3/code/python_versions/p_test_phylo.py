@@ -82,19 +82,17 @@ def test_neighbor_joining():
     assert test_tree == ref_tree
 
 
-# Load a 2D array of integers from a text file
-distances: np.ndarray = np.loadtxt(
-    "week3/tests/sequence/data/distances.txt", 
-    dtype=np.int64
-)
-with open(f'week3/tests/sequence/data/newick_upgma.txt', 'r') as f:
-    upgma_newick = f.read().strip()
-
-
-tree = upgma(distances)
-
 def run_tests() -> float:
     start = time.perf_counter()
+
+    distances: np.ndarray = np.loadtxt(
+        "week3/tests/sequence/data/distances.txt", 
+        dtype=np.int64
+    )
+    with open(f'week3/tests/sequence/data/newick_upgma.txt', 'r') as f:
+        upgma_newick = f.read().strip()
+
+    tree = upgma(distances)
 
     test_distances(tree)
     test_upgma(tree, upgma_newick)
