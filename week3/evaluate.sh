@@ -5,4 +5,4 @@ PATH=${PATH}:${HOME}/.codon/bin
 echo "week3"
 
 echo -e "\nRunning tests\n"
-python3 code/compare_runtimes.py
+python3 week3/code/compare_runtimes.py
