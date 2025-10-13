@@ -83,10 +83,10 @@ def test_neighbor_joining():
 
 # Load a 2D array of integers from a text file
 distances: np.ndarray = np.loadtxt(
-    "../tests/sequence/data/distances.txt", 
+    "week3/tests/sequence/data/distances.txt", 
     dtype=np.int64
 )
-with open(f'../tests/sequence/data/newick_upgma.txt', 'r') as f:
+with open(f'week3/tests/sequence/data/newick_upgma.txt', 'r') as f:
     upgma_newick = f.read().strip()
 
 
