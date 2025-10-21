@@ -4,6 +4,8 @@
 # 3. after reaching sink, backtrack to source to produce a max-weight path
 # 4. infer the alignment corresponding to this path
 
+import sys
+
 def global_alignment(seq1, seq2, match=3, mismatch=-3, gap=-2):
     m = len(seq1)
     n = len(seq2)
@@ -61,19 +63,32 @@ def global_alignment(seq1, seq2, match=3, mismatch=-3, gap=-2):
             break
 
     return matrix, (align1, align2, matrix[m][n])
-    
-    # return matrix
 
 
 # Example usage:
-A = "ABCB"
-B = "ABB"
+# A = "ABCB"
+# B = "ABB"
 
-matrix, (align1, align2, weight) = global_alignment(A, B)
-print("\nScore Matrix:")
-for row in matrix:
-    print(row)
+# matrix, (align1, align2, weight) = global_alignment(A, B)
+# print("\nScore Matrix:")
+# for row in matrix:
+#     print(row)
 
-print(align1)
-print(align2)
-print(weight)
+# print(align1)
+# print(align2)
+# print(weight)
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Please provide filepaths to 2 sequences.")
+        exit(0)
+
+    with open(sys.argv[1], 'r') as f1:
+        seq1 = ''.join(line.strip() for line in f1 if not line.startswith('>'))
+
+    with open(sys.argv[2], 'r') as f2:
+        seq2 = ''.join(line.strip() for line in f2 if not line.startswith('>'))
+
+
+    matrix, (align1, align2, weight) = global_alignment(seq1, seq1)
+    print(weight)
