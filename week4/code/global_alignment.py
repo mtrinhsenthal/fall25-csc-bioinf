@@ -23,6 +23,8 @@ def read_file(filename):
     return sequences
 
 def global_alignment(seq1, seq2, match=3, mismatch=-3, gap=-2):
+    seq1 = seq1.upper()
+    seq2 = seq2.upper()
 
     m = len(seq1)
     n = len(seq2)
@@ -98,24 +100,11 @@ def compare_pairs(query_file, target_file):
         print(a1)
         print(a2)
 
-        # Optional: print the score matrix
+        # print the score matrix
         # print("\nScore Matrix:")
         # for row in alignment_matrix:
         #     print(row)
 
-
-# Example usage:
-# A = "ABCB"
-# B = "ABB"
-
-# matrix, (align1, align2, weight) = global_alignment(A, B)
-# print("\nScore Matrix:")
-# for row in matrix:
-#     print(row)
-
-# print(align1)
-# print(align2)
-# print(weight)
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
