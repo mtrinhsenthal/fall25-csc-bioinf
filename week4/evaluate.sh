@@ -8,6 +8,9 @@ echo "week4"
 declare -A tests
 tests=(
   ["week4/code/global_alignment.py,week4/test/MT-human.fa,week4/test/MT-orang.fa"]="global-mt_human"
+  ["week4/code/local_alignment.py,week4/test/MT-human.fa,week4/test/MT-orang.fa"]="local-mt_human"
+  ["week4/code/affine_alignment.py,week4/test/MT-human.fa,week4/test/MT-orang.fa"]="affine-mt_human"
+  ["week4/code/fitting_alignment.py,week4/test/MT-human.fa,week4/test/MT-orang.fa"]="fitting-mt_human"
   ["week4/code/global_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="global-q1"
   ["week4/code/local_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="local-q1"
   ["week4/code/affine_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="affine-q1"
