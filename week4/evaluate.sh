@@ -9,9 +9,9 @@ declare -A tests
 tests=(
   ["code/global_alignment.py,test/MT-human.fa,test/MT-orang.fa"]="global-mt_human"
   ["code/global_alignment.py,test/q1.fa,test/t1.fa"]="global-q1"
-  ["code/local_alignment.py,test/q2.fa,test/t2.fa"]="local-q2"
-  ["code/affine_alignment.py,test/q3.fa,test/t3.fa"]="affine-q3"
-  ["code/fitting_alignment.py,test/q4.fa,test/t4.fa"]="fitting-q4"
+  ["code/local_alignment.py,test/q1.fa,test/t1.fa"]="local-q1"
+  ["code/affine_alignment.py,test/q1.fa,test/t1.fa"]="affine-q1"
+  ["code/fitting_alignment.py,test/q1.fa,test/t1.fa"]="fitting-q1"
 )
 
 # Output table header
