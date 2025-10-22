@@ -1,9 +1,4 @@
 
-# 1. form a 2d array using the recurrence relation for dynamic programming
-# 2. create array containing "backtracking pointers"
-# 3. after reaching sink, backtrack to source to produce a max-weight path
-# 4. infer the alignment corresponding to this path
-
 import sys
 
 def read_file(filename):
@@ -96,20 +91,16 @@ def compare_pairs(query_file, target_file):
     for (q_id, q_seq), (t_id, t_seq) in zip(queries, targets):
         print(f"\n=== {q_id} vs {t_id} ===")
         alignment_matrix, (a1, a2, score) = global_alignment(q_seq, t_seq)
+
         print("Score:", score)
         print(a1)
         print(a2)
-
-        # print the score matrix
-        # print("\nScore Matrix:")
-        # for row in alignment_matrix:
-        #     print(row)
 
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print("Please provide filepaths to 2 sequences.")
-        exit(0)
+        sys.exit(0)
 
     # with open(sys.argv[1], 'r') as f1:
     #     seq1 = ''.join(line.strip() for line in f1 if not line.startswith('>'))
