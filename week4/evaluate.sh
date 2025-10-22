@@ -25,14 +25,14 @@ for key in "${!tests[@]}"; do
 
   # --- Python run ---
   start=$(date +%s%3N)
-  python3 "$script" "$qfile" "$tfile"
+  python3 "$script" "$qfile" "$tfile" >/dev/null 2>&1
   end=$(date +%s%3N)
   runtime_py=$((end - start))
   printf "%-18s %-10s %-10s\n" "$label" "python" "${runtime_py}ms"
 
   # --- Codon run ---
   start=$(date +%s%3N)
-  codon run "$script" "$qfile" "$tfile" >/dev/null 2>&1
+  codon run -release "$script" "$qfile" "$tfile" >/dev/null 2>&1
   end=$(date +%s%3N)
   runtime_cod=$((end - start))
   printf "%-18s %-10s %-10s\n" "$label" "codon" "${runtime_cod}ms"
