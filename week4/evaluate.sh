@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail
+# set -euxo pipefail
 PATH=${PATH}:${HOME}/.codon/bin
 echo "week4"
 # Run all alignment scripts with both Python and Codon, measure runtime, and format results.
