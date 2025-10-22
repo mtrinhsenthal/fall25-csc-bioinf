@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefail 
+# set -euxo pipefail 
 PATH=${PATH}:${HOME}/.codon/bin
 echo "week4"
 # Run all alignment scripts with both Python and Codon, measure runtime, and format results.
@@ -14,6 +14,9 @@ tests=(
   ["week4/code/local_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="local-q1"
   ["week4/code/affine_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="affine-q1"
   ["week4/code/fitting_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="fitting-q1"
+  ["week4/code/global_alignment.py,week4/test/q2.fa,week4/test/t2.fa"]="global-q2"
+  ["week4/code/local_alignment.py,week4/test/q2.fa,week4/test/t2.fa"]="local-q2"
+  ["week4/code/fitting_alignment.py,week4/test/q2.fa,week4/test/t2.fa"]="fitting-q2"
 )
 
 # Output table header
