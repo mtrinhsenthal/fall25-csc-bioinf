@@ -25,7 +25,7 @@ for key in "${!tests[@]}"; do
 
   # --- Python run ---
   start=$(date +%s%3N)
-  python3 "$script" "$qfile" "$tfile" >/dev/null 2>&1
+  python3 "$script" "$qfile" "$tfile"
   end=$(date +%s%3N)
   runtime_py=$((end - start))
   printf "%-18s %-10s %-10s\n" "$label" "python" "${runtime_py}ms"
