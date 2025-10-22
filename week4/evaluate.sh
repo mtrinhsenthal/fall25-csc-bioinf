@@ -7,11 +7,11 @@ echo "week4"
 # Define test cases
 declare -A tests
 tests=(
-  ["code/global_alignment.py,test/MT-human.fa,test/MT-orang.fa"]="global-mt_human"
-  ["code/global_alignment.py,test/q1.fa,test/t1.fa"]="global-q1"
-  ["code/local_alignment.py,test/q1.fa,test/t1.fa"]="local-q1"
-  ["code/affine_alignment.py,test/q1.fa,test/t1.fa"]="affine-q1"
-  ["code/fitting_alignment.py,test/q1.fa,test/t1.fa"]="fitting-q1"
+  ["week4/code/global_alignment.py,week4/test/MT-human.fa,week4/test/MT-orang.fa"]="global-mt_human"
+  ["week4/code/global_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="global-q1"
+  ["week4/code/local_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="local-q1"
+  ["week4/code/affine_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="affine-q1"
+  ["week4/code/fitting_alignment.py,week4/test/q1.fa,week4/test/t1.fa"]="fitting-q1"
 )
 
 # Output table header
