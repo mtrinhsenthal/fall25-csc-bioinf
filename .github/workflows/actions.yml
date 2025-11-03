@@ -27,7 +27,7 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       # - name: Week 1
       #   run: bash week1/evaluate.sh
-      - name: Week 4
+      - name: Week 5
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
-          bash week4/evaluate.sh
+          bash jupyter execute week5.ipynb
