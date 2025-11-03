@@ -25,11 +25,11 @@ jobs:
           echo "Found Python at: ${CODON_PYTHON}"
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: dependencies
+      - name: Install jupyter
         run: |
           pip install jupyter notebook
-          conda install -y -c bioconda -c conda-forge minimap2 samtools freebayes
       - name: Week 5
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
+          conda install -y -c bioconda -c conda-forge minimap2 samtools freebayes
           jupyter nbconvert --to notebook --execute week5/week5.ipynb
