@@ -34,4 +34,4 @@ jobs:
           source "$(conda info --base)/etc/profile.d/conda.sh"
           conda activate base
           conda install -y -c bioconda -c conda-forge minimap2 samtools freebayes
-          jupyter nbconvert --to notebook --execute week5/week5.ipynb
+          jupyter nbconvert --to notebook --execute week5/week5.ipynb --output week5_output.ipynb
