@@ -32,4 +32,4 @@ jobs:
       - name: Week 5
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
-          bash jupyter execute week5/week5.ipynb
+          jupyter nbconvert --to notebook --execute week5/week5.ipynb
