@@ -28,7 +28,7 @@ jobs:
       - name: dependencies
         run: |
           pip install jupyter notebook
-          conda install -y minimap2
+          conda install -y -c bioconda -c conda-forge minimap2 samtools freebayes
       - name: Week 5
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
