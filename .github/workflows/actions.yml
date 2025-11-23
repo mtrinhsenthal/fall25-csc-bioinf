@@ -27,11 +27,11 @@ jobs:
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: Install jupyter
         run: |
-          pip install jupyter notebook
-      - name: Week 5
+          conda install jupyter notebook
+      - name: Week 6
         run: |
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
-          source "$(conda info --base)/etc/profile.d/conda.sh"
-          conda activate base
-          conda install -y -c bioconda -c conda-forge minimap2 samtools freebayes
-          jupyter nbconvert --to notebook --execute week5/week5.ipynb --output week5_output.ipynb
+          conda create -n af -y -c bioconda simpleaf
+          conda activate af
+          conda install -c scanpy celltypist
+          jupyter nbconvert --to notebook --execute week6/week6.ipynb
