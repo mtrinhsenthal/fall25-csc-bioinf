@@ -33,6 +33,13 @@ jobs:
       #     conda activate af
       #     conda install -c scanpy celltypist anndata python-igraph leidenalg celltypist
       #     jupyter nbconvert --to notebook --execute week6/week6.ipynb
+      - name: Set up Miniconda
+        uses: conda-incubator/setup-miniconda@v3
+        with:
+          auto-update-conda: true
+          channels: conda-forge,bioconda
+          activate-environment: week6
+          python-version: 3.11
       - name: Set up Homebrew
         uses: Homebrew/actions/setup-homebrew@main
       - name: Install bedtools
