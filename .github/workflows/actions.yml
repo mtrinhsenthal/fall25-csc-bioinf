@@ -33,8 +33,9 @@ jobs:
       #     conda activate af
       #     conda install -c scanpy celltypist anndata python-igraph leidenalg celltypist
       #     jupyter nbconvert --to notebook --execute week6/week6.ipynb
-      - name: Set up Homebrew and bedtools
-        # uses: Homebrew/actions/setup-homebrew@main
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@main
+      - name: Install bedtools
         run: brew install bedtools
       - name: Install Week 6 pip tools
         run: |
