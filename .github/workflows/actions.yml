@@ -33,5 +33,5 @@ jobs:
           export CODON_PYTHON=/opt/hostedtoolcache/Python/3.13.7/x64/lib/libpython3.13.so.1.0
           conda create -n af -y -c bioconda simpleaf
           conda activate af
-          conda install -c scanpy celltypist
+          conda install -c scanpy celltypist anndata python-igraph leidenalg celltypist
           jupyter nbconvert --to notebook --execute week6/week6.ipynb
