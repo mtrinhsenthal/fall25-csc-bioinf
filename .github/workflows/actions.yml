@@ -43,7 +43,7 @@ jobs:
           conda config --add channels conda-forge
           conda install -c bioconda salmon alevin-fry
       - name: Install jupyter
-          conda install jupyter notebook
+        run: conda install jupyter notebook
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to test your code on the runner."
       - name: week6
